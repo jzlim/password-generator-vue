@@ -15,7 +15,7 @@
                     <v-slider
                         v-model="passwordLength"
                         thumb-label
-                        min="6"
+                        min="1"
                         max="30"
                     ></v-slider>
                 </v-col>
@@ -76,10 +76,9 @@ export default {
         this.symbolCharCodes = [...this.getCharacterCodesFromRange(33, 47),
                                 ...this.getCharacterCodesFromRange(58, 64),
                                 ...this.getCharacterCodesFromRange(91, 96),
-                                ...this.getCharacterCodesFromRange(123, 126)]        
+                                ...this.getCharacterCodesFromRange(123, 126)] 
     },
     methods: {
-        testMethod: () => console.log('test'),
         getCharacterCodesFromRange(start, end) {
             // https://www.petefreitag.com/cheatsheets/ascii-codes/
             const char = []
@@ -98,7 +97,7 @@ export default {
             if (this.includeNumber) charCodes = [...charCodes, ...this.numberCharCodes]
             if (this.includeSymbol) charCodes = [ ...charCodes, ...this.symbolCharCodes]
 
-            for (let i = 0; i <= this.passwordLength; i++) {
+            for (let i = 0; i < this.passwordLength; i++) {
                 const characterCode = charCodes[Math.floor(Math.random() * charCodes.length)]
                 passwordCharArray.push(String.fromCharCode(characterCode))
             }
