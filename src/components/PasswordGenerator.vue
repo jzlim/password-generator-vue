@@ -55,60 +55,38 @@
 </template>
 
 <script>
-export default {
-    data: () => ({
-        isLoading: false,
-        generatedPassword: 'GeneratedPassword',
-        passwordLength: 10,
-        includeUpperCase: false,
-        includeNumber: false,
-        includeSymbol: false,
+    export default {
+        data: () => ({
+            isLoading: false,
+            generatedPassword: 'GeneratedPassword',
+            passwordLength: 10,
+            includeUpperCase: false,
+            includeNumber: false,
+            includeSymbol: false
+        }),
+        methods: {
+            generatePassword() {
+                if (!this.passwordLength) return
+                this.triggerLoading(true)
 
-        lowerCaseCharCodes: [],
-        upperCaseCharCodes: [],
-        numberCharCodes: [],
-        symbolCharCodes: []
-    }),
-    created() {
-        this.lowerCaseCharCodes = this.getCharacterCodesFromRange(97, 122)
-        this.upperCaseCharCodes = this.getCharacterCodesFromRange(65, 90)
-        this.numberCharCodes = this.getCharacterCodesFromRange(48, 57)
-        this.symbolCharCodes = [...this.getCharacterCodesFromRange(33, 47),
-                                ...this.getCharacterCodesFromRange(58, 64),
-                                ...this.getCharacterCodesFromRange(91, 96),
-                                ...this.getCharacterCodesFromRange(123, 126)] 
-    },
-    methods: {
-        getCharacterCodesFromRange(start, end) {
-            // https://www.petefreitag.com/cheatsheets/ascii-codes/
-            const char = []
-            for (let i = start; i <= end; i++) {
-            char.push(i)
+                let password = ""
+                let characters = "abcdefghijklmnopqrstuvwxyz"
+                if (this.includeUpperCase) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                if (this.includeNumber) characters += "0123456789"
+                if (this.includeSymbol) characters += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+
+                for (let i = 0; i < this.passwordLength; i++) {
+                    password += characters.charAt(Math.floor(Math.random() * characters.length))
+                }
+
+                this.generatedPassword = password
+                this.triggerLoading(false)
+            },
+            triggerLoading(state) {
+                this.isLoading = state
             }
-            return char
-        },
-        generatePassword() {
-            if (!this.passwordLength) return
-            this.triggerLoading(true)
-
-            let passwordCharArray = []
-            let charCodes = this.lowerCaseCharCodes
-            if (this.includeUpperCase) charCodes = [...charCodes, ...this.upperCaseCharCodes]
-            if (this.includeNumber) charCodes = [...charCodes, ...this.numberCharCodes]
-            if (this.includeSymbol) charCodes = [ ...charCodes, ...this.symbolCharCodes]
-
-            for (let i = 0; i < this.passwordLength; i++) {
-                const characterCode = charCodes[Math.floor(Math.random() * charCodes.length)]
-                passwordCharArray.push(String.fromCharCode(characterCode))
-            }
-            this.generatedPassword = passwordCharArray.join('')
-            this.triggerLoading(false)
-        },
-        triggerLoading(state) {
-            this.isLoading = state
         }
     }
-}
 </script>
 
 <style scoped>
