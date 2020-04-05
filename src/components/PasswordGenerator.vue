@@ -55,38 +55,38 @@
 </template>
 
 <script>
-    export default {
-        data: () => ({
-            isLoading: false,
-            generatedPassword: 'GeneratedPassword',
-            passwordLength: 10,
-            includeUpperCase: false,
-            includeNumber: false,
-            includeSymbol: false
-        }),
-        methods: {
-            generatePassword() {
-                if (!this.passwordLength) return
-                this.triggerLoading(true)
+export default {
+    data: () => ({
+        isLoading: false,
+        generatedPassword: 'GeneratedPassword',
+        passwordLength: 10,
+        includeUpperCase: false,
+        includeNumber: false,
+        includeSymbol: false
+    }),
+    methods: {
+        generatePassword() {
+            if (!this.passwordLength) return
+            this.triggerLoading(true)
 
-                let password = ""
-                let characters = "abcdefghijklmnopqrstuvwxyz"
-                if (this.includeUpperCase) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                if (this.includeNumber) characters += "0123456789"
-                if (this.includeSymbol) characters += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+            let password = ""
+            let characters = "abcdefghijklmnopqrstuvwxyz"
+            if (this.includeUpperCase) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            if (this.includeNumber) characters += "0123456789"
+            if (this.includeSymbol) characters += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
 
-                for (let i = 0; i < this.passwordLength; i++) {
-                    password += characters.charAt(Math.floor(Math.random() * characters.length))
-                }
-
-                this.generatedPassword = password
-                this.triggerLoading(false)
-            },
-            triggerLoading(state) {
-                this.isLoading = state
+            for (let i = 0; i < this.passwordLength; i++) {
+                password += characters.charAt(Math.floor(Math.random() * characters.length))
             }
+
+            this.generatedPassword = password
+            this.triggerLoading(false)
+        },
+        triggerLoading(state) {
+            this.isLoading = state
         }
     }
+}
 </script>
 
 <style scoped>
